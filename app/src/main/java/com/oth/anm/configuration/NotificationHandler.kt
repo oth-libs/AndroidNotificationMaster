@@ -4,16 +4,19 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.os.Build
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
+import com.oth.anm.BuildConfig
 import java.util.*
 
 
 class NotificationHandler(private val notificationConfig: NotificationConfig) {
 
-
     companion object {
+        val LIBRARY_VERSION = BuildConfig.VERSION_NAME
+
         private fun getnotificationManager(context: Context) = NotificationManagerCompat.from(context)
 
         fun clearNotification(context: Context, notificationId: Int) {
@@ -37,6 +40,8 @@ class NotificationHandler(private val notificationConfig: NotificationConfig) {
         // build notification
         val mBuilder = NotificationCompat.Builder(notificationConfig.context, notificationConfig.notificationChannelConfig.channelId).apply {
             // basic
+            setLargeIcon(BitmapFactory.decodeResource(notificationConfig.notificationChannelConfig.context.resources, notificationConfig.smallIcon))
+            setBadgeIconType(notificationConfig.smallIcon)
             setSmallIcon(notificationConfig.smallIcon)
             setContentTitle(notificationConfig.title)
             setContentText(notificationConfig.text)
